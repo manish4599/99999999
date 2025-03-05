@@ -141,10 +141,17 @@ const pendingBuyers: PendingUser[] = [
   },
 ];
 
-export function PendingUsersList({ userType = "sellers" }: { userType?: string }) {
+export function PendingUsersList({ userType = "sellers", onSelectUser }: { userType?: string, onSelectUser?: (userId: number) => void }) {
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
   const users = userType === "sellers" ? pendingSellers : pendingBuyers;
+  
+  const handleUserSelect = (userId: number) => {
+    setSelectedUserId(userId);
+    if (onSelectUser) {
+      onSelectUser(userId);
+    }
+  };
 
   return (
     <Table>
@@ -166,7 +173,7 @@ export function PendingUsersList({ userType = "sellers" }: { userType?: string }
           <TableRow
             key={user.id}
             className={`cursor-pointer ${selectedUserId === user.id ? 'bg-blue-50' : ''}`}
-            onClick={() => setSelectedUserId(user.id)}
+            onClick={() => handleUserSelect(user.id)}
           >
             <TableCell>
               <input type="checkbox" className="h-4 w-4" />
