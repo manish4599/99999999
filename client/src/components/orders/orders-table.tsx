@@ -85,3 +85,72 @@ export default function OrdersTable({ orders }: OrdersTableProps) {
     </Table>
   );
 }
+
+// Demo data for orders - this can be loaded from an API in a real application
+export const demoOrders = [
+  {
+    id: "#ORD-7845",
+    customer: {
+      name: "John Doe",
+      email: "john@example.com",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=john"
+    },
+    items: 5,
+    total: "$584.95",
+    status: "completed",
+    date: "Jan 15, 2024",
+    address: "123 Main St, New York, NY 10001"
+  },
+  {
+    id: "#ORD-7844",
+    customer: {
+      name: "Sarah Smith",
+      email: "sarah@example.com",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=sarah"
+    },
+    items: 2,
+    total: "$244.00",
+    status: "pending",
+    date: "Jan 15, 2024",
+    address: "456 Oak Ave, Los Angeles, CA 90001"
+  },
+  {
+    id: "#ORD-7843",
+    customer: {
+      name: "Mike Johnson",
+      email: "mike@example.com",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=mike"
+    },
+    items: 8,
+    total: "$874.20",
+    status: "cancelled",
+    date: "Jan 14, 2024",
+    address: "789 Pine St, Chicago, IL 60007"
+  },
+  {
+    id: "#ORD-7842",
+    customer: {
+      name: "Lisa Chen",
+      email: "lisa@example.com",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=lisa"
+    },
+    items: 1,
+    total: "$145.50",
+    status: "processing",
+    date: "Jan 14, 2024",
+    address: "321 Maple Rd, Boston, MA 02108"
+  },
+  {
+    id: "#ORD-7841",
+    customer: {
+      name: "Robert Garcia",
+      email: "robert@example.com",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=robert"
+    },
+    items: 3,
+    total: "$329.99",
+    status: "completed",
+    date: "Jan 13, 2024",
+    address: "654 Elm St, Miami, FL 33101"
+  }
+];

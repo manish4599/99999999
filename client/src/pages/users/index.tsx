@@ -14,11 +14,62 @@ import { Plus } from "lucide-react";
 
 export default function UsersPage() {
   const [activeTab, setActiveTab] = useState("sellers");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
+
+  // Filter handlers
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleStatusFilter = (status: string) => {
+    setFilterStatus(status);
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-gray-900">User Management</h1>
+        <Button className="flex items-center gap-1">
+          <Plus className="h-4 w-4" />
+          Add User
+        </Button>
+      </div>
+
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+        <div className="relative w-full sm:w-64">
+          <Input
+            placeholder="Search users..."
+            value={searchTerm}
+            onChange={handleSearch}
+            className="pl-8"
+          />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </div>
+        <Select value={filterStatus} onValueChange={handleStatusFilter}>
+          <SelectTrigger className="w-full sm:w-36">
+            <SelectValue placeholder="Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="active">Active</SelectItem>
+            <SelectItem value="pending">Pending</SelectItem>
+            <SelectItem value="inactive">Inactive</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">

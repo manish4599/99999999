@@ -46,6 +46,34 @@ const orders: Order[] = [
     amount: "$874.20",
     date: "Jan 14, 2024",
   },
+  {
+    orderId: "#ORD-7842",
+    customer: "Lisa Chen",
+    status: "processing",
+    amount: "$145.50",
+    date: "Jan 14, 2024",
+  },
+  {
+    orderId: "#ORD-7841",
+    customer: "Robert Garcia",
+    status: "completed",
+    amount: "$329.99",
+    date: "Jan 13, 2024",
+  },
+  {
+    orderId: "#ORD-7840",
+    customer: "Emma Wilson",
+    status: "shipping",
+    amount: "$567.20",
+    date: "Jan 13, 2024",
+  },
+  {
+    orderId: "#ORD-7839",
+    customer: "David Brown",
+    status: "completed",
+    amount: "$189.75",
+    date: "Jan 12, 2024",
+  }
 ];
 
 export default function OrdersTable() {
