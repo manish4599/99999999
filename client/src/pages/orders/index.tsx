@@ -25,7 +25,17 @@ export default function OrdersPage() {
   });
 
   if (isLoading || !data) {
-    return <div>Loading...</div>;
+    return (
+      <div className="space-y-6">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {Array(4).fill(0).map((_, i) => (
+            <Card key={i} className="h-32 animate-pulse bg-gray-100" />
+          ))}
+        </div>
+        <Card className="h-[400px] animate-pulse bg-gray-100" />
+        <Card className="h-[400px] animate-pulse bg-gray-100" />
+      </div>
+    );
   }
 
   return (

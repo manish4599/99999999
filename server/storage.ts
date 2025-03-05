@@ -56,7 +56,7 @@ export class MemStorage implements IStorage {
   }
 
   private initializeMockData() {
-    // Mock Users
+    // Mock Users (keep existing user data)
     this.users.set(1, {
       id: 1,
       username: "john_doe",
@@ -65,20 +65,38 @@ export class MemStorage implements IStorage {
       role: "user",
       createdAt: new Date("2024-01-01"),
     });
-    // Add more mock users...
 
-    // Mock Orders
-    this.orders.set(1, {
-      id: 1,
-      orderId: "ORD-7845",
-      customerId: 1,
-      amount: "584.95",
-      status: "completed",
-      createdAt: new Date("2024-01-15"),
-    });
-    // Add more mock orders...
+    // Mock Orders with more data
+    const mockOrders = [
+      {
+        id: 1,
+        orderId: "ORD-2451",
+        customerId: 1,
+        amount: "899.99",
+        status: "completed",
+        createdAt: new Date("2024-01-15"),
+      },
+      {
+        id: 2,
+        orderId: "ORD-2450",
+        customerId: 2,
+        amount: "245.00",
+        status: "pending",
+        createdAt: new Date("2024-01-15"),
+      },
+      {
+        id: 3,
+        orderId: "ORD-2449",
+        customerId: 3,
+        amount: "1299.99",
+        status: "cancelled",
+        createdAt: new Date("2024-01-14"),
+      }
+    ];
 
-    // Mock Stores
+    mockOrders.forEach(order => this.orders.set(order.id, order));
+
+    // Keep existing store data
     this.stores.set(1, {
       id: 1,
       name: "Tech Store",
@@ -87,7 +105,6 @@ export class MemStorage implements IStorage {
       growth: "12.5",
       avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=tech",
     });
-    // Add more mock stores...
   }
 }
 

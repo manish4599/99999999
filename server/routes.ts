@@ -23,6 +23,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
+  // Orders data
+  app.get("/api/orders", async (_req, res) => {
+    const orders = await storage.getOrders();
+    const completed = orders.filter(o => o.status === "completed").length;
+    const pending = orders.filter(o => o.status === "pending").length;
+    const cancelled = orders.filter(o => o.status === "cancelled").length;
+
+    res.json({
+      totalOrders: orders.length,
+      completedOrders: completed,
+      pendingOrders: pending,
+      cancelledOrders: cancelled,
+      orders: orders.slice(0, 10) // Return first 10 orders for the table
+    });
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
