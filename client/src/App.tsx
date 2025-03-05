@@ -7,6 +7,7 @@ import Dashboard from "@/pages/dashboard";
 import UsersPage from "@/pages/users";
 import Sidebar from "@/components/layout/sidebar";
 import Header from "@/components/layout/header";
+import OrdersPage from "@/pages/orders"; // Import OrdersPage
 
 function Router() {
   return (
@@ -18,6 +19,7 @@ function Router() {
           <Switch>
             <Route path="/" component={Dashboard} />
             <Route path="/users" component={UsersPage} />
+            <Route path="/orders" component={OrdersPage} /> {/* Added Orders route */}
             <Route component={NotFound} />
           </Switch>
         </main>
