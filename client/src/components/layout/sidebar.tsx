@@ -8,6 +8,7 @@ import {
   Bell,
   History,
   UserCheck,
+  LineChart,
 } from "lucide-react";
 import { SiReplit } from "react-icons/si";
 
@@ -16,8 +17,8 @@ const navigation = [
   { name: "User Management", href: "/users", icon: Users },
   { name: "Pending Approvals", href: "/users/pending-approvals", icon: UserCheck },
   { name: "Orders", href: "/orders", icon: ShoppingCart },
-  { name: "Analytics", href: "/analytics", icon: BarChart },
-  { name: "Notifications", href: "/notifications", icon: Bell }, // Added Notifications link
+  { name: "Analytics", href: "/analytics", icon: LineChart },
+  { name: "Notifications", href: "/notifications", icon: Bell }, 
   { name: "Activity Logs", href: "/activity", icon: History },
 ];
 
