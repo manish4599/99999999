@@ -1,0 +1,58 @@
+Prompt for Replit AI Builder: PWA Admin Panel
+Project Title:
+Modern PWA Admin Panel for Business Analytics
+
+Project Type:
+Progressive Web App (PWA) using React, Tailwind CSS, and Firebase/Node.js for Backend
+
+1. Core Features & Functionalities:
+Dashboard Page
+Display key business metrics with widgets, including:
+Total Users (e.g., 24,580) with percentage change.
+New Signups (e.g., 1,240) with percentage increase.
+Total Orders (e.g., 8,549) with percentage decrease.
+Pending Approvals (e.g., 156) with action required status.
+User Activity Chart (Daily/Weekly/Monthly toggle).
+Order Trends Graph (Historical order trends).
+Recent Orders Table:
+Display Order ID, Customer Name, Status (Completed, Pending, Canceled), Amount, and Date.
+Top Sellers Section:
+Display store performance (e.g., Tech Store, Fashion Hub, Sports World) with revenue and percentage change.
+2. Navigation & Layout
+Sidebar Navigation:
+Dashboard
+User Management
+Orders
+Analytics
+Notifications
+Activity Logs
+Search Bar at the top.
+Profile Icon for user settings.
+Dark Mode Toggle in the top-right corner.
+Floating Action Button (FAB) for quick actions.
+3. Technologies & Frameworks
+Frontend:
+React.js (Next.js for SSR if needed).
+Tailwind CSS for styling.
+Recharts for analytics graphs.
+ShadCN/UI for UI components.
+Backend:
+Firebase (Firestore for real-time data) or Node.js + Express.js.
+PostgreSQL or MongoDB for order/user data.
+PWA Features:
+Installable on mobile/desktop.
+Offline support via service workers.
+Push notifications for alerts.
+4. User Roles & Permissions
+Admin: Full access to all features.
+Manager: Limited access to user management & orders.
+Viewer: Can only view analytics data.
+5. Additional Features
+Order Filtering: Filter orders by status.
+Export Data: Export order reports in CSV.
+Notifications System: Alerts for pending approvals.
+Authentication: Google & Email-based login.
+Output Requirements
+Generate a React-based PWA with a modern dashboard.
+Implement dummy data for development.
+Ensure responsive design for mobile & desktop.
