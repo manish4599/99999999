@@ -1,4 +1,4 @@
-import { Link, useLocation } from "wouter";
+import { useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
@@ -10,6 +10,38 @@ import {
   UserCheck,
 } from "lucide-react";
 import { SiReplit } from "react-icons/si";
+
+type SidebarItem = {
+  title: string;
+  href: string;
+  icon: React.ElementType;
+  isActive?: boolean;
+};
+
+const SidebarLink: React.FC<SidebarItem> = ({
+  title,
+  href,
+  icon: Icon,
+  isActive,
+}) => {
+  const [location, navigate] = useLocation();
+  const active = isActive || location === href;
+
+  return (
+    <button
+      onClick={() => navigate(href)}
+      className={cn(
+        "flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-left transition-all",
+        active
+          ? "bg-accent text-accent-foreground"
+          : "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground"
+      )}
+    >
+      <Icon className="h-4 w-4" />
+      {title}
+    </button>
+  );
+};
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
@@ -34,22 +66,7 @@ export default function Sidebar() {
         {navigation.map((item) => {
           const isActive = location === item.href;
           return (
-            <Link key={item.name} href={item.href}>
-              <a
-                className={cn(
-                  "group flex items-center px-3 py-2 text-sm font-medium rounded-lg",
-                  isActive
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-gray-600 hover:bg-gray-50"
-                )}
-              >
-                <item.icon className={cn(
-                  "mr-3 h-5 w-5",
-                  isActive ? "text-blue-600" : "text-gray-400"
-                )} />
-                {item.name}
-              </a>
-            </Link>
+            <SidebarLink key={item.name} title={item.name} href={item.href} icon={item.icon} isActive={isActive} />
           );
         })}
       </nav>
