@@ -1,86 +1,86 @@
 
 import { useState } from "react";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { UserPreview } from "@/components/users/user-preview";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PendingUsersList } from "@/components/users/pending-users-list";
+import { UserPreview } from "@/components/users/user-preview";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
 export default function PendingApprovalsPage() {
-  const [selectedUser, setSelectedUser] = useState<number | null>(null);
   const [userType, setUserType] = useState("sellers");
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
-  const handleUserSelect = (userId: number) => {
-    setSelectedUser(userId);
+  const handleSelectUser = (userId: string) => {
+    setSelectedUserId(userId);
+    setIsPreviewOpen(true);
   };
 
-  const handleClosePreview = () => {
-    setSelectedUser(null);
+  const handleApproveUser = () => {
+    // Handle user approval logic here
+    console.log(`Approved user: ${selectedUserId}`);
+    setIsPreviewOpen(false);
+    setSelectedUserId(null);
+  };
+
+  const handleRejectUser = () => {
+    // Handle user rejection logic here
+    console.log(`Rejected user: ${selectedUserId}`);
+    setIsPreviewOpen(false);
+    setSelectedUserId(null);
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-gray-900">Manage Pending Approvals</h1>
+        <h1 className="text-2xl font-bold">Pending Approvals</h1>
       </div>
 
-      <div className="border-b border-gray-200">
-        <Tabs value={userType} onValueChange={setUserType} className="w-full">
-          <TabsList className="w-[400px] grid grid-cols-2">
-            <TabsTrigger 
-              value="sellers" 
-              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white"
-            >
-              Pending Sellers
-            </TabsTrigger>
-            <TabsTrigger 
-              value="buyers"
-              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white"
-            >
-              Pending Buyers
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </div>
+      <Tabs defaultValue="sellers" onValueChange={(value) => setUserType(value)}>
+        <TabsList>
+          <TabsTrigger value="sellers">Sellers</TabsTrigger>
+          <TabsTrigger value="buyers">Buyers</TabsTrigger>
+        </TabsList>
+        <TabsContent value="sellers">
+          <PendingUsersList 
+            userType="sellers" 
+            selectedUserId={selectedUserId} 
+            onSelectUser={handleSelectUser} 
+          />
+        </TabsContent>
+        <TabsContent value="buyers">
+          <PendingUsersList 
+            userType="buyers" 
+            selectedUserId={selectedUserId} 
+            onSelectUser={handleSelectUser} 
+          />
+        </TabsContent>
+      </Tabs>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-6">
-        <Input placeholder="Search by name or email..." />
-        <Select defaultValue="all">
-          <SelectTrigger>
-            <SelectValue placeholder="Filter by document status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Documents</SelectItem>
-            <SelectItem value="complete">Complete</SelectItem>
-            <SelectItem value="incomplete">Incomplete</SelectItem>
-            <SelectItem value="pending">Verification Pending</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select defaultValue="newest">
-          <SelectTrigger>
-            <SelectValue placeholder="Sort by" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="newest">Newest First</SelectItem>
-            <SelectItem value="oldest">Oldest First</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      <PendingUsersList userType={userType} onSelectUser={handleUserSelect} />
-
-      {/* User Preview Side Panel */}
-      <Sheet open={selectedUser !== null} onOpenChange={() => setSelectedUser(null)}>
-        <SheetContent className="w-[400px] sm:w-[540px] p-0">
-          {selectedUser && (
-            <UserPreview userId={selectedUser.toString()} onClose={handleClosePreview} />
+      <Sheet open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+        <SheetContent className="w-[400px] sm:w-[540px]">
+          {selectedUserId && (
+            <div className="h-full flex flex-col">
+              <UserPreview 
+                userId={selectedUserId} 
+                userType={userType} 
+              />
+              <div className="mt-auto pt-6 flex space-x-2">
+                <Button 
+                  variant="destructive" 
+                  onClick={handleRejectUser}
+                  className="flex-1"
+                >
+                  Reject
+                </Button>
+                <Button 
+                  onClick={handleApproveUser}
+                  className="flex-1"
+                >
+                  Approve
+                </Button>
+              </div>
+            </div>
           )}
         </SheetContent>
       </Sheet>

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Table,
@@ -141,17 +140,14 @@ const pendingBuyers: PendingUser[] = [
   },
 ];
 
-export function PendingUsersList({ userType = "sellers", onSelectUser }: { userType?: string, onSelectUser?: (userId: number) => void }) {
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+interface PendingUsersListProps {
+  userType: string;
+  selectedUserId: string | null;
+  onSelectUser: (userId: string) => void;
+}
 
+export function PendingUsersList({ userType, selectedUserId, onSelectUser }: PendingUsersListProps) {
   const users = userType === "sellers" ? pendingSellers : pendingBuyers;
-  
-  const handleUserSelect = (userId: number) => {
-    setSelectedUserId(userId);
-    if (onSelectUser) {
-      onSelectUser(userId);
-    }
-  };
 
   return (
     <Table>
@@ -172,8 +168,8 @@ export function PendingUsersList({ userType = "sellers", onSelectUser }: { userT
         {users.map((user) => (
           <TableRow
             key={user.id}
-            className={`cursor-pointer ${selectedUserId === user.id ? 'bg-blue-50' : ''}`}
-            onClick={() => handleUserSelect(user.id)}
+            className={`cursor-pointer ${selectedUserId === user.id.toString() ? 'bg-blue-50' : ''}`}
+            onClick={() => onSelectUser(user.id.toString())}
           >
             <TableCell>
               <input type="checkbox" className="h-4 w-4" />
