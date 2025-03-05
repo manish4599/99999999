@@ -10,6 +10,7 @@ import PendingApprovalsPage from "@/pages/users/pending-approvals";
 import Sidebar from "@/components/layout/sidebar";
 import Header from "@/components/layout/header";
 import ActivityLogPage from "@/pages/activity";
+import NotificationsPage from "@/pages/notifications"; // Added import
 
 function Router() {
   return (
@@ -23,6 +24,7 @@ function Router() {
             <Route path="/users" component={UsersPage} />
             <Route path="/orders" component={OrdersPage} />
             <Route path="/users/pending-approvals" component={PendingApprovalsPage} />
+            <Route path="/notifications" component={NotificationsPage} /> {/* Added Notifications route */}
             <Route path="/activity" component={ActivityLogPage} />
             <Route component={NotFound} />
           </Switch>

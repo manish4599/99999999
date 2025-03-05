@@ -17,7 +17,7 @@ const navigation = [
   { name: "Pending Approvals", href: "/users/pending-approvals", icon: UserCheck },
   { name: "Orders", href: "/orders", icon: ShoppingCart },
   { name: "Analytics", href: "/analytics", icon: BarChart },
-  { name: "Notifications", href: "/notifications", icon: Bell },
+  { name: "Notifications", href: "/notifications", icon: Bell }, // Added Notifications link
   { name: "Activity Logs", href: "/activity", icon: History },
 ];
 
