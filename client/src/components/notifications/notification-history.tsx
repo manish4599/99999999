@@ -1,4 +1,3 @@
-
 import {
   Table,
   TableBody,
@@ -55,7 +54,7 @@ export function NotificationHistory() {
           <Badge variant="outline" className="cursor-pointer">Push</Badge>
         </div>
       </div>
-      
+
       <Table>
         <TableHeader>
           <TableRow>
@@ -87,7 +86,7 @@ export function NotificationHistory() {
           ))}
         </TableBody>
       </Table>
-      
+
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground">Showing 1 to 3 of 243 results.</span>
         <Pagination>

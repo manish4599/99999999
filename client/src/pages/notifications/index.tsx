@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -19,7 +18,7 @@ export default function NotificationsPage() {
       <div>
         <h2 className="text-2xl font-bold tracking-tight">Notifications & SMS Management</h2>
       </div>
-      
+
       <Card>
         <CardContent className="pt-6">
           <div className="mb-6">
@@ -50,12 +49,12 @@ export default function NotificationsPage() {
                 </Select>
               </div>
             </div>
-            
+
             <Textarea 
               placeholder="Type your message here..." 
               className="min-h-[100px] mb-4"
             />
-            
+
             <div className="flex justify-between items-center">
               <div className="flex items-center space-x-2">
                 <Checkbox id="char-count" />
@@ -63,15 +62,15 @@ export default function NotificationsPage() {
                   0/160 characters
                 </label>
               </div>
-              
+
               <Button>Send Now</Button>
             </div>
           </div>
         </CardContent>
       </Card>
-      
+
       <NotificationStats />
-      
+
       <Card>
         <CardContent className="pt-6">
           <NotificationHistory />

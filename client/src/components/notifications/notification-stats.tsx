@@ -1,6 +1,5 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Paper, Inbox, Clock, AlertTriangle } from "lucide-react";
+import { FileText, Inbox, Clock, AlertTriangle } from "lucide-react";
 
 export function NotificationStats() {
   return (
@@ -8,13 +7,13 @@ export function NotificationStats() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Sent</CardTitle>
-          <Paper className="h-4 w-4 text-muted-foreground" />
+          <FileText className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">24,123</div>
         </CardContent>
       </Card>
-      
+
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Delivered</CardTitle>
@@ -24,7 +23,7 @@ export function NotificationStats() {
           <div className="text-2xl font-bold">23,492</div>
         </CardContent>
       </Card>
-      
+
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Pending</CardTitle>
@@ -34,7 +33,7 @@ export function NotificationStats() {
           <div className="text-2xl font-bold">412</div>
         </CardContent>
       </Card>
-      
+
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Failed</CardTitle>
