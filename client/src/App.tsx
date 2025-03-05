@@ -5,9 +5,10 @@ import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import Dashboard from "@/pages/dashboard";
 import UsersPage from "@/pages/users";
+import OrdersPage from "@/pages/orders";
+import PendingApprovalsPage from "@/pages/users/pending-approvals";
 import Sidebar from "@/components/layout/sidebar";
 import Header from "@/components/layout/header";
-import OrdersPage from "@/pages/orders"; // Import OrdersPage
 
 function Router() {
   return (
@@ -19,7 +20,8 @@ function Router() {
           <Switch>
             <Route path="/" component={Dashboard} />
             <Route path="/users" component={UsersPage} />
-            <Route path="/orders" component={OrdersPage} /> {/* Added Orders route */}
+            <Route path="/orders" component={OrdersPage} />
+            <Route path="/users/pending-approvals" component={PendingApprovalsPage} />
             <Route component={NotFound} />
           </Switch>
         </main>

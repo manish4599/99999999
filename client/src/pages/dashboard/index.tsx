@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "wouter";
 import StatsCard from "@/components/dashboard/stats-card";
 import ActivityChart from "@/components/dashboard/activity-chart";
 import OrdersTable from "@/components/dashboard/orders-table";
@@ -20,7 +21,7 @@ export default function Dashboard() {
     queryKey: ["/api/dashboard"],
   });
 
-  if (isLoading) {
+  if (isLoading || !data) {
     return (
       <div className="space-y-6">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -58,13 +59,15 @@ export default function Dashboard() {
           change={-1.2}
           icon={<ShoppingCart className="h-5 w-5 text-blue-600" />}
         />
-        <StatsCard
-          title="Pending Approvals"
-          value={data.pendingApprovals}
-          change={0}
-          icon={<AlertCircle className="h-5 w-5 text-orange-600" />}
-          actionRequired
-        />
+        <Link href="/users/pending-approvals" className="block transition-transform hover:scale-[1.02]">
+          <StatsCard
+            title="Pending Approvals"
+            value={data.pendingApprovals}
+            change={0}
+            icon={<AlertCircle className="h-5 w-5 text-orange-600" />}
+            actionRequired
+          />
+        </Link>
       </div>
 
       <ActivityChart />

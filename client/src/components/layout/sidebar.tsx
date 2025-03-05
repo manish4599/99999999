@@ -7,12 +7,14 @@ import {
   BarChart,
   Bell,
   History,
+  UserCheck,
 } from "lucide-react";
 import { SiReplit } from "react-icons/si";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "User Management", href: "/users", icon: Users },
+  { name: "Pending Approvals", href: "/users/pending-approvals", icon: UserCheck },
   { name: "Orders", href: "/orders", icon: ShoppingCart },
   { name: "Analytics", href: "/analytics", icon: BarChart },
   { name: "Notifications", href: "/notifications", icon: Bell },
