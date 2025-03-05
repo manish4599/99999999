@@ -10,8 +10,6 @@ import PendingApprovalsPage from "@/pages/users/pending-approvals";
 import Sidebar from "@/components/layout/sidebar";
 import Header from "@/components/layout/header";
 import ActivityLogPage from "@/pages/activity";
-import NotificationsPage from "@/pages/notifications"; // Added import
-
 
 function Router() {
   return (
@@ -26,7 +24,6 @@ function Router() {
             <Route path="/orders" component={OrdersPage} />
             <Route path="/users/pending-approvals" component={PendingApprovalsPage} />
             <Route path="/activity" component={ActivityLogPage} />
-            <Route path="/notifications" component={NotificationsPage} /> {/* Added notifications route */}
             <Route component={NotFound} />
           </Switch>
         </main>
@@ -45,5 +42,3 @@ function App() {
 }
 
 export default App;
-
-// These placeholder components are no longer needed since we have actual implementations

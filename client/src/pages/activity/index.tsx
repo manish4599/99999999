@@ -19,20 +19,6 @@ export default function ActivityLogPage() {
   const [activityType, setActivityType] = useState<string>("all");
   const [status, setStatus] = useState<string>("all");
 
-  // Sample demo activity data.  Replace this with actual data fetching logic.
-  const demoActivities = [
-    { id: 1, user: "Admin", type: "login", status: "success", date: "2024-03-08" },
-    { id: 2, user: "Seller", type: "order", status: "pending", date: "2024-03-08" },
-    { id: 3, user: "Buyer", type: "user", status: "success", date: "2024-03-07" },
-    { id: 4, user: "Admin", type: "login", status: "failed", date: "2024-03-06" },
-    { id: 5, user: "Seller", type: "order", status: "success", date: "2024-03-05" },
-    { id: 6, user: "Buyer", type: "user", status: "pending", date: "2024-03-04" },
-    {id: 7, user: "Guest", type: "login", status: "success", date: "2024-03-03"}, // Added demo entry
-    {id: 8, user: "Admin", type: "user", status: "failed", date: "2024-03-02"}, // Added demo entry
-
-  ];
-
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -82,13 +68,13 @@ export default function ActivityLogPage() {
             <label className="text-sm text-gray-500 mb-1.5 block">Status</label>
             <Select value={status} onValueChange={setStatus}>
               <SelectTrigger>
-                <SelectValue placeholder="All Statuses" />
+                <SelectValue placeholder="All Status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="success">Success</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
                 <SelectItem value="failed">Failed</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -106,7 +92,7 @@ export default function ActivityLogPage() {
           </Button>
         </div>
 
-        <ActivityTable activities={demoActivities} /> {/* Pass demo data to ActivityTable */}
+        <ActivityTable />
       </Card>
     </div>
   );
