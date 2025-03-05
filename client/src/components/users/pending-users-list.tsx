@@ -7,7 +7,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 
 interface PendingUsersListProps {
@@ -17,22 +16,17 @@ interface PendingUsersListProps {
 }
 
 export function PendingUsersList({ userType, selectedUserId, onSelectUser }: PendingUsersListProps) {
-  // This would fetch actual pending users in a real implementation
-  const users = [
-    {
-      id: "1",
-      name: "John Smith",
-      business: "Tech Solutions Ltd",
-      type: "Technology",
-      contact: {
-        email: "john@techsolutions.com",
-        phone: "+1 234 567 890"
-      },
-      documents: "Complete",
-      date: "Jan 15, 2025",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=john"
-    }
-  ];
+  const { data: users = [], isLoading } = useQuery({
+    queryKey: ['/api/users/pending'],
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const filteredUsers = users.filter(user => 
+    userType === 'sellers' ? user.role === 'seller' : user.role === 'buyer'
+  );
 
   return (
     <Table>
@@ -50,7 +44,7 @@ export function PendingUsersList({ userType, selectedUserId, onSelectUser }: Pen
         </TableRow>
       </TableHeader>
       <TableBody>
-        {users.map((user) => (
+        {filteredUsers.map((user) => (
           <TableRow
             key={user.id}
             className={`cursor-pointer ${selectedUserId === user.id ? 'bg-blue-50' : ''}`}
@@ -63,27 +57,27 @@ export function PendingUsersList({ userType, selectedUserId, onSelectUser }: Pen
               <div className="flex items-center gap-3">
                 <Avatar>
                   <AvatarImage src={user.avatar} />
-                  <AvatarFallback>{user.name[0]}</AvatarFallback>
+                  <AvatarFallback>{user.username[0]}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="font-medium">{user.name}</p>
-                  <p className="text-sm text-gray-500">{user.business}</p>
+                  <p className="font-medium">{user.username}</p>
+                  <p className="text-sm text-gray-500">{user.email}</p>
                 </div>
               </div>
             </TableCell>
-            <TableCell>{user.type}</TableCell>
+            <TableCell>{user.businessType || 'N/A'}</TableCell>
             <TableCell>
               <div>
-                <p className="text-sm">{user.contact.email}</p>
-                <p className="text-sm text-gray-500">{user.contact.phone}</p>
+                <p className="text-sm">{user.email}</p>
+                <p className="text-sm text-gray-500">{user.phone || 'N/A'}</p>
               </div>
             </TableCell>
             <TableCell>
               <span className="px-2 py-1 text-sm bg-green-100 text-green-800 rounded">
-                {user.documents}
+                Complete
               </span>
             </TableCell>
-            <TableCell>{user.date}</TableCell>
+            <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
             <TableCell>
               <span className="px-2 py-1 text-sm bg-yellow-100 text-yellow-800 rounded">
                 Pending

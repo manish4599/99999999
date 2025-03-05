@@ -62,6 +62,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
+  // Update user status
+  app.post("/api/users/:userId/update-status", async (req, res) => {
+    const userId = parseInt(req.params.userId);
+    const { status } = req.body;
+
+    if (!userId || !["approved", "rejected"].includes(status)) {
+      return res.status(400).json({ error: "Invalid request" });
+    }
+
+    try {
+      await storage.updateUserStatus(userId, status);
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update user status" });
+    }
+  });
+
+  // Get pending users
+  app.get("/api/users/pending", async (_req, res) => {
+    const users = await storage.getUsers();
+    const pendingUsers = users.filter(user => user.status === "pending");
+    res.json(pendingUsers);
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

@@ -4,6 +4,7 @@ export interface IStorage {
   // Users
   getUsers(): Promise<User[]>;
   getNewSignups(days: number): Promise<number>;
+  updateUserStatus(userId: number, status: 'approved' | 'rejected'): Promise<void>;
 
   // Orders
   getOrders(): Promise<Order[]>;
@@ -29,6 +30,14 @@ export class MemStorage implements IStorage {
 
   async getUsers(): Promise<User[]> {
     return Array.from(this.users.values());
+  }
+
+  async updateUserStatus(userId: number, status: 'approved' | 'rejected'): Promise<void> {
+    const user = this.users.get(userId);
+    if (user) {
+      user.status = status;
+      this.users.set(userId, user);
+    }
   }
 
   async getNewSignups(days: number): Promise<number> {
@@ -64,6 +73,7 @@ export class MemStorage implements IStorage {
         email: "john@example.com",
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=john",
         role: "buyer",
+        status: "pending",
         createdAt: new Date("2024-01-01"),
       },
       {
@@ -72,6 +82,7 @@ export class MemStorage implements IStorage {
         email: "sarah@example.com",
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=sarah",
         role: "buyer",
+        status: "pending",
         createdAt: new Date("2024-01-02"),
       },
       {
@@ -80,6 +91,7 @@ export class MemStorage implements IStorage {
         email: "mike@example.com",
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=mike",
         role: "buyer",
+        status: "pending",
         createdAt: new Date("2024-01-03"),
       }
     ];

@@ -2,7 +2,9 @@ import { X, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useQuery } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 interface UserPreviewProps {
   userId: string;
@@ -10,6 +12,34 @@ interface UserPreviewProps {
 }
 
 export function UserPreview({ userId, onClose }: UserPreviewProps) {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const updateStatusMutation = useMutation({
+    mutationFn: async (status: 'approved' | 'rejected') => {
+      return apiRequest(`/api/users/${userId}/update-status`, {
+        method: 'POST',
+        body: { status },
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/users/pending'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/dashboard'] });
+      toast({
+        title: "Status Updated",
+        description: "User status has been updated successfully.",
+      });
+      onClose();
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to update user status. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
   // This would fetch actual user data in a real implementation
   const user = {
     name: "John Smith",
@@ -20,6 +50,14 @@ export function UserPreview({ userId, onClose }: UserPreviewProps) {
     documents: [
       { name: "Business License", url: "#" }
     ]
+  };
+
+  const handleApprove = () => {
+    updateStatusMutation.mutate('approved');
+  };
+
+  const handleReject = () => {
+    updateStatusMutation.mutate('rejected');
   };
 
   return (
@@ -78,10 +116,19 @@ export function UserPreview({ userId, onClose }: UserPreviewProps) {
         </div>
 
         <div className="flex gap-3">
-          <Button className="flex-1 bg-green-600 hover:bg-green-700">
+          <Button 
+            className="flex-1 bg-green-600 hover:bg-green-700"
+            onClick={handleApprove}
+            disabled={updateStatusMutation.isPending}
+          >
             Approve
           </Button>
-          <Button variant="destructive" className="flex-1">
+          <Button 
+            variant="destructive" 
+            className="flex-1"
+            onClick={handleReject}
+            disabled={updateStatusMutation.isPending}
+          >
             Reject
           </Button>
         </div>
