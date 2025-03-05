@@ -14,15 +14,15 @@ export default function Header() {
   };
 
   return (
-    <header className="h-14 border-b border-border px-4 flex items-center justify-between">
+    <header className="h-14 bg-white border-b border-gray-200 px-4 flex items-center justify-between">
       <div className="flex items-center flex-1 gap-4">
-        <div className="w-72">
+        <div className="w-[300px]">
           <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
             <Input
               type="search"
               placeholder="Search..."
-              className="w-full pl-8 bg-background"
+              className="w-full pl-8 bg-gray-50 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
             />
           </div>
         </div>
@@ -32,7 +32,7 @@ export default function Header() {
         <Button
           variant="ghost"
           size="icon"
-          className="relative"
+          className="text-gray-600 hover:text-gray-900 hover:bg-gray-100"
           onClick={toggleTheme}
         >
           {theme === "light" ? (
@@ -42,12 +42,12 @@ export default function Header() {
           )}
         </Button>
 
-        <Button variant="ghost" size="icon" className="relative">
+        <Button variant="ghost" size="icon" className="relative text-gray-600 hover:text-gray-900 hover:bg-gray-100">
           <Bell className="h-5 w-5" />
           <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-red-500" />
         </Button>
 
-        <Avatar>
+        <Avatar className="h-8 w-8">
           <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=admin" />
           <AvatarFallback>AD</AvatarFallback>
         </Avatar>
