@@ -5,21 +5,9 @@ import { z } from "zod";
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull(),
-  email: text("email").notNull().unique(),
-  password: text("password"),
+  email: text("email").notNull(),
   avatar: text("avatar"),
   role: text("role").default("user"),
-  status: text("status").default("pending"),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export const admins = pgTable("admins", {
-  id: serial("id").primaryKey(),
-  username: text("username").notNull(),
-  email: text("email").notNull().unique(),
-  password: text("password").notNull(),
-  avatar: text("avatar"),
-  role: text("role").default("admin"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
