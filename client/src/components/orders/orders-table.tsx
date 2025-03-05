@@ -69,7 +69,7 @@ export default function OrdersTable({ orders }: OrdersTableProps) {
                 <span>{order.seller.name}</span>
               </div>
             </TableCell>
-            <TableCell>{order.date}</TableCell>
+            <TableCell>{new Date(order.date).toLocaleDateString()}</TableCell>
             <TableCell>${order.amount}</TableCell>
             <TableCell>
               <Badge

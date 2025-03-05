@@ -25,7 +25,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Orders data
   app.get("/api/orders", async (_req, res) => {
-    const orders = await storage.getOrders();
+    const [orders, users, stores] = await Promise.all([
+      storage.getOrders(),
+      storage.getUsers(),
+      storage.getTopStores(),
+    ]);
+
+    const usersMap = new Map(users.map(u => [u.id, u]));
+    const storesMap = new Map(stores.map(s => [s.id, s]));
+
+    const ordersWithDetails = orders.map(order => ({
+      id: order.orderId,
+      buyer: {
+        name: usersMap.get(order.customerId)?.username || "Unknown",
+        avatar: usersMap.get(order.customerId)?.avatar || "",
+      },
+      seller: {
+        name: storesMap.get(1)?.name || "Unknown", // For demo, using first store
+        avatar: storesMap.get(1)?.avatar || "",
+      },
+      date: order.createdAt,
+      amount: order.amount,
+      status: order.status,
+    }));
+
     const completed = orders.filter(o => o.status === "completed").length;
     const pending = orders.filter(o => o.status === "pending").length;
     const cancelled = orders.filter(o => o.status === "cancelled").length;
@@ -35,7 +58,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       completedOrders: completed,
       pendingOrders: pending,
       cancelledOrders: cancelled,
-      orders: orders.slice(0, 10) // Return first 10 orders for the table
+      orders: ordersWithDetails,
     });
   });
 

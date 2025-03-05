@@ -4,11 +4,11 @@ export interface IStorage {
   // Users
   getUsers(): Promise<User[]>;
   getNewSignups(days: number): Promise<number>;
-  
+
   // Orders
   getOrders(): Promise<Order[]>;
   getRecentOrders(limit: number): Promise<Order[]>;
-  
+
   // Stores
   getTopStores(): Promise<Store[]>;
 }
@@ -17,12 +17,12 @@ export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private orders: Map<number, Order>;
   private stores: Map<number, Store>;
-  
+
   constructor() {
     this.users = new Map();
     this.orders = new Map();
     this.stores = new Map();
-    
+
     // Initialize with mock data
     this.initializeMockData();
   }
@@ -33,7 +33,7 @@ export class MemStorage implements IStorage {
 
   async getNewSignups(days: number): Promise<number> {
     const now = new Date();
-    const threshold = new Date(now.setDate(now.getDate() - days));
+    const threshold = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
     return Array.from(this.users.values()).filter(
       user => new Date(user.createdAt) >= threshold
     ).length;
@@ -56,15 +56,65 @@ export class MemStorage implements IStorage {
   }
 
   private initializeMockData() {
-    // Mock Users (keep existing user data)
-    this.users.set(1, {
-      id: 1,
-      username: "john_doe",
-      email: "john@example.com",
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=john",
-      role: "user",
-      createdAt: new Date("2024-01-01"),
-    });
+    // Mock Users
+    const mockUsers = [
+      {
+        id: 1,
+        username: "John Doe",
+        email: "john@example.com",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=john",
+        role: "buyer",
+        createdAt: new Date("2024-01-01"),
+      },
+      {
+        id: 2,
+        username: "Sarah Smith",
+        email: "sarah@example.com",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=sarah",
+        role: "buyer",
+        createdAt: new Date("2024-01-02"),
+      },
+      {
+        id: 3,
+        username: "Mike Johnson",
+        email: "mike@example.com",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=mike",
+        role: "buyer",
+        createdAt: new Date("2024-01-03"),
+      }
+    ];
+
+    mockUsers.forEach(user => this.users.set(user.id, user));
+
+    // Mock Stores with associated seller data
+    const mockStores = [
+      {
+        id: 1,
+        name: "Tech Store Inc.",
+        category: "Electronics",
+        revenue: "45254.00",
+        growth: "12.5",
+        avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=tech",
+      },
+      {
+        id: 2,
+        name: "Fashion Hub",
+        category: "Clothing",
+        revenue: "38124.00",
+        growth: "8.3",
+        avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=fashion",
+      },
+      {
+        id: 3,
+        name: "Electronics Pro",
+        category: "Electronics",
+        revenue: "35999.00",
+        growth: "15.2",
+        avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=electronics",
+      }
+    ];
+
+    mockStores.forEach(store => this.stores.set(store.id, store));
 
     // Mock Orders with more data
     const mockOrders = [
@@ -95,16 +145,6 @@ export class MemStorage implements IStorage {
     ];
 
     mockOrders.forEach(order => this.orders.set(order.id, order));
-
-    // Keep existing store data
-    this.stores.set(1, {
-      id: 1,
-      name: "Tech Store",
-      category: "Electronics",
-      revenue: "45254.00",
-      growth: "12.5",
-      avatar: "https://api.dicebear.com/7.x/identicon/svg?seed=tech",
-    });
   }
 }
 
