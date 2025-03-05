@@ -181,3 +181,84 @@ export default function HelpCenter() {
     </div>
   );
 }
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
+
+export default function HelpCenter() {
+  return (
+    <div className="p-6 space-y-6">
+      <h1 className="text-3xl font-bold">Help Center</h1>
+      
+      <div className="relative max-w-md mx-auto mb-8">
+        <Input placeholder="Search for help..." className="pr-10" />
+        <Search className="absolute right-3 top-2.5 h-5 w-5 text-muted-foreground" />
+      </div>
+      
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Card>
+          <CardHeader>
+            <CardTitle>Getting Started</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground mb-4">Learn the basics of using the dashboard</p>
+            <Button variant="outline" className="w-full">View Guides</Button>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>User Management</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground mb-4">Learn how to manage users and permissions</p>
+            <Button variant="outline" className="w-full">View Guides</Button>
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Order Processing</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground mb-4">Learn about order management workflow</p>
+            <Button variant="outline" className="w-full">View Guides</Button>
+          </CardContent>
+        </Card>
+      </div>
+      
+      <Card className="mt-8">
+        <CardHeader>
+          <CardTitle>Frequently Asked Questions</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger>How do I reset my password?</AccordionTrigger>
+              <AccordionContent>
+                You can reset your password by clicking on the "Forgot Password" link on the login page.
+                Follow the instructions sent to your email to create a new password.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>How can I update my profile information?</AccordionTrigger>
+              <AccordionContent>
+                Go to Settings → Account and you'll find options to update your profile information including
+                name, email, and profile picture.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>Can I export my data?</AccordionTrigger>
+              <AccordionContent>
+                Yes, you can export your data from each section of the dashboard. Look for the export
+                button (usually with a download icon) in the top right of data tables.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

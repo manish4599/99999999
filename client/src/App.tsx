@@ -6,12 +6,12 @@ import { ErrorBoundary } from "@/components/ui/error-boundary";
 import Dashboard from "@/pages/dashboard";
 import UsersPage from "@/pages/users";
 import OrdersPage from "@/pages/orders";
-import ProductsPage from "@/pages/products"; // Added import, assumed to exist
-import SettingsPage from "@/pages/settings"; // Added import, assumed to exist
+import ProductsPage from "@/pages/products";
+import SettingsPage from "@/pages/settings";
 import ActivityPage from "@/pages/activity";
 import NotificationsPage from "@/pages/notifications";
 import AnalyticsPage from "@/pages/analytics";
-import HelpCenter from "@/pages/help"; // Added import, assumed to exist
+import HelpCenter from "@/pages/help";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { Loader } from "lucide-react";
@@ -34,33 +34,31 @@ const LoadingSpinner = () => (
 
 export default function App() {
   return (
-    <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <div className="flex h-screen bg-background text-foreground">
-          <Sidebar />
-          <div className="flex flex-col flex-1 overflow-hidden">
-            <Header />
-            <main className="flex-1 overflow-y-auto">
+    <QueryClientProvider client={queryClient}>
+      <div className="flex h-screen bg-background text-foreground">
+        <Sidebar />
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <Header />
+          <main className="flex-1 overflow-y-auto">
+            <ErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
-                <ErrorBoundary>
-                  <Switch>
-                    <Route path="/" component={Dashboard} />
-                    <Route path="/users" component={UsersPage} />
-                    <Route path="/orders" component={OrdersPage} />
-                    <Route path="/products" component={ProductsPage} />
-                    <Route path="/settings" component={SettingsPage} />
-                    <Route path="/activity" component={ActivityPage} />
-                    <Route path="/notifications" component={NotificationsPage} />
-                    <Route path="/analytics" component={AnalyticsPage} />
-                    <Route path="/help" component={HelpCenter} />
-                  </Switch>
-                </ErrorBoundary>
+                <Switch>
+                  <Route path="/" component={Dashboard} />
+                  <Route path="/users" component={UsersPage} />
+                  <Route path="/orders" component={OrdersPage} />
+                  <Route path="/products" component={ProductsPage} />
+                  <Route path="/settings" component={SettingsPage} />
+                  <Route path="/activity" component={ActivityPage} />
+                  <Route path="/notifications" component={NotificationsPage} />
+                  <Route path="/analytics" component={AnalyticsPage} />
+                  <Route path="/help" component={HelpCenter} />
+                </Switch>
               </Suspense>
-            </main>
-          </div>
+            </ErrorBoundary>
+          </main>
         </div>
-        <Toaster />
-      </QueryClientProvider>
-    </ErrorBoundary>
+      </div>
+      <Toaster />
+    </QueryClientProvider>
   );
 }
