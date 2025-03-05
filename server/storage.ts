@@ -63,6 +63,41 @@ export class MemStorage implements IStorage {
       .sort((a, b) => Number(b.revenue) - Number(a.revenue))
       .slice(0, 3);
   }
+  
+  // Admin Auth Methods
+  async createAdmin(username: string, email: string, password: string): Promise<any> {
+    try {
+      // In a real implementation, you would use the db from server/db.ts
+      // const newAdmin = await db.insert(admins).values({ username, email, password }).returning();
+      // return newAdmin[0];
+      
+      // For now, using in-memory storage
+      const id = Math.max(...Array.from(this.users.keys()), 0) + 1;
+      const admin = {
+        id,
+        username,
+        email,
+        password,
+        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`,
+        role: "admin",
+        createdAt: new Date(),
+      };
+      this.users.set(id, admin);
+      return admin;
+    } catch (error) {
+      console.error("Failed to create admin:", error);
+      throw error;
+    }
+  }
+
+  async findAdminByEmail(email: string): Promise<any> {
+    // In a real implementation, you would use the db from server/db.ts
+    // return await db.query.admins.findFirst({ where: eq(admins.email, email) });
+    
+    // For now, using in-memory storage
+    return Array.from(this.users.values()).find(user => 
+      user.email === email && user.role === "admin");
+  }
 
   private initializeMockData() {
     // Mock Users

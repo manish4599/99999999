@@ -10,6 +10,8 @@ import PendingApprovalsPage from "@/pages/users/pending-approvals";
 import Sidebar from "@/components/layout/sidebar";
 import Header from "@/components/layout/header";
 import ActivityLogPage from "@/pages/activity";
+import { AuthProvider } from './context/authContext'; // Added import
+
 
 function Router() {
   return (
@@ -35,8 +37,10 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Router />
-      <Toaster />
+      <AuthProvider> {/* Added AuthProvider */}
+        <Router />
+        <Toaster />
+      </AuthProvider> {/* Closed AuthProvider */}
     </QueryClientProvider>
   );
 }
