@@ -22,12 +22,24 @@ export default function PendingApprovalsPage() {
         <h1 className="text-2xl font-semibold text-gray-900">Manage Pending Approvals</h1>
       </div>
 
-      <Tabs value={userType} onValueChange={setUserType} className="w-full">
-        <TabsList className="grid w-[200px] grid-cols-2">
-          <TabsTrigger value="sellers">Pending Sellers</TabsTrigger>
-          <TabsTrigger value="buyers">Pending Buyers</TabsTrigger>
-        </TabsList>
-      </Tabs>
+      <div className="border-b border-gray-200">
+        <Tabs value={userType} onValueChange={setUserType} className="w-full">
+          <TabsList className="w-[400px] grid grid-cols-2">
+            <TabsTrigger 
+              value="sellers" 
+              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+            >
+              Pending Sellers
+            </TabsTrigger>
+            <TabsTrigger 
+              value="buyers"
+              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white"
+            >
+              Pending Buyers
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
 
       <div className="flex gap-4">
         <Input

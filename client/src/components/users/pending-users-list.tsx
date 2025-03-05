@@ -85,9 +85,9 @@ export function PendingUsersList({ userType, selectedUserId, onSelectUser }: Pen
             </TableCell>
             <TableCell>{user.date}</TableCell>
             <TableCell>
-              <Button variant="outline" size="sm">
-                Complete
-              </Button>
+              <span className="px-2 py-1 text-sm bg-yellow-100 text-yellow-800 rounded">
+                Pending
+              </span>
             </TableCell>
           </TableRow>
         ))}
