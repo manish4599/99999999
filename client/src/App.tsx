@@ -4,6 +4,7 @@ import { queryClient } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import Dashboard from "@/pages/dashboard";
+import UsersPage from "@/pages/users";
 import Sidebar from "@/components/layout/sidebar";
 import Header from "@/components/layout/header";
 
@@ -16,6 +17,7 @@ function Router() {
         <main className="flex-1 overflow-y-auto p-6">
           <Switch>
             <Route path="/" component={Dashboard} />
+            <Route path="/users" component={UsersPage} />
             <Route component={NotFound} />
           </Switch>
         </main>
