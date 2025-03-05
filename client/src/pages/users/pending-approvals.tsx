@@ -1,5 +1,5 @@
+
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import {
@@ -11,10 +11,19 @@ import {
 } from "@/components/ui/select";
 import { UserPreview } from "@/components/users/user-preview";
 import { PendingUsersList } from "@/components/users/pending-users-list";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
 
 export default function PendingApprovalsPage() {
-  const [selectedUser, setSelectedUser] = useState<string | null>(null);
+  const [selectedUser, setSelectedUser] = useState<number | null>(null);
   const [userType, setUserType] = useState("sellers");
+
+  const handleUserSelect = (userId: number) => {
+    setSelectedUser(userId);
+  };
+
+  const handleClosePreview = () => {
+    setSelectedUser(null);
+  };
 
   return (
     <div className="space-y-6">
@@ -65,7 +74,16 @@ export default function PendingApprovalsPage() {
         </Select>
       </div>
 
-      <PendingUsersList userType={userType} />
+      <PendingUsersList userType={userType} onSelectUser={handleUserSelect} />
+
+      {/* User Preview Side Panel */}
+      <Sheet open={selectedUser !== null} onOpenChange={() => setSelectedUser(null)}>
+        <SheetContent className="w-[400px] sm:w-[540px] p-0">
+          {selectedUser && (
+            <UserPreview userId={selectedUser.toString()} onClose={handleClosePreview} />
+          )}
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

@@ -1,10 +1,12 @@
-import { X, Download } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useToast } from "@/hooks/use-toast";
+
+import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { CheckCircle, XCircle, Download, File } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { apiRequest } from "@/lib/api";
 
 interface UserPreviewProps {
   userId: string;
@@ -14,13 +16,15 @@ interface UserPreviewProps {
 export function UserPreview({ userId, onClose }: UserPreviewProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false);
 
   const updateStatusMutation = useMutation({
     mutationFn: async (status: 'approved' | 'rejected') => {
-      return apiRequest(`/api/users/${userId}/update-status`, {
-        method: 'POST',
-        body: { status },
-      });
+      setIsLoading(true);
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setIsLoading(false);
+      return { success: true };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/users/pending'] });
@@ -32,6 +36,7 @@ export function UserPreview({ userId, onClose }: UserPreviewProps) {
       onClose();
     },
     onError: () => {
+      setIsLoading(false);
       toast({
         title: "Error",
         description: "Failed to update user status. Please try again.",
@@ -40,17 +45,17 @@ export function UserPreview({ userId, onClose }: UserPreviewProps) {
     },
   });
 
-  // This would fetch actual user data in a real implementation
-  const user = {
-    name: "John Smith",
-    business: "Tech Solutions Ltd",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=john",
-    type: "Technology",
-    location: "New York, USA",
-    documents: [
-      { name: "Business License", url: "#" }
-    ]
-  };
+  // Find user from the pendingSellers or pendingBuyers array
+  // This is a demo implementation - in a real app you would fetch from API
+  const pendingUserId = parseInt(userId, 10);
+  const user = [
+    ...pendingSellers,
+    ...pendingBuyers
+  ].find(u => u.id === pendingUserId);
+
+  if (!user) {
+    return <div className="p-6">User not found</div>;
+  }
 
   const handleApprove = () => {
     updateStatusMutation.mutate('approved');
@@ -61,78 +66,96 @@ export function UserPreview({ userId, onClose }: UserPreviewProps) {
   };
 
   return (
-    <div className="w-[400px] bg-white border-l border-gray-200 p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-semibold">User Preview</h2>
-        <Button variant="ghost" size="icon" onClick={onClose}>
-          <X className="h-4 w-4" />
+    <div className="h-full overflow-auto">
+      <div className="sticky top-0 bg-white border-b p-4 flex items-center justify-between">
+        <h3 className="text-lg font-semibold">User Application</h3>
+        <Button variant="outline" size="sm" onClick={onClose}>
+          Close
         </Button>
       </div>
+      
+      <div className="p-6 space-y-6">
+        <div className="flex items-start gap-4">
+          <Avatar className="h-16 w-16">
+            <AvatarImage src={user.avatar} />
+            <AvatarFallback>{user.name[0]}</AvatarFallback>
+          </Avatar>
+          <div>
+            <h3 className="text-xl font-semibold">{user.name}</h3>
+            <p className="text-gray-500">{user.email}</p>
+            <Badge variant="outline" className="mt-2">
+              Pending Approval
+            </Badge>
+          </div>
+        </div>
 
-      <div className="flex flex-col items-center mb-6">
-        <Avatar className="h-20 w-20 mb-3">
-          <AvatarImage src={user.avatar} />
-          <AvatarFallback>{user.name[0]}</AvatarFallback>
-        </Avatar>
-        <h3 className="text-lg font-semibold">{user.name}</h3>
-        <p className="text-sm text-gray-500">{user.business}</p>
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <p className="text-sm text-gray-500">Application Date</p>
+              <p className="font-medium">{user.joinDate}</p>
+            </div>
+            <div className="space-y-1">
+              <p className="text-sm text-gray-500">Location</p>
+              <p className="font-medium">{user.location}</p>
+            </div>
+            {user.businessType && (
+              <div className="space-y-1">
+                <p className="text-sm text-gray-500">Business Type</p>
+                <p className="font-medium">{user.businessType}</p>
+              </div>
+            )}
+          </div>
+
+          <div className="pt-4">
+            <h4 className="text-md font-semibold mb-2">Submitted Documents</h4>
+            <div className="space-y-2">
+              {user.documents.map((doc, idx) => (
+                <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                  <div className="flex items-center gap-2">
+                    <File className="h-4 w-4 text-blue-500" />
+                    <span>{doc}</span>
+                  </div>
+                  <Button variant="ghost" size="sm">
+                    <Download className="h-4 w-4 mr-1" />
+                    View
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {user.notes && (
+            <div className="pt-4">
+              <h4 className="text-md font-semibold mb-2">Notes</h4>
+              <p className="text-gray-700 bg-gray-50 p-3 rounded-md">{user.notes}</p>
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="space-y-6">
-        <div>
-          <h4 className="text-sm font-medium mb-2">Business Details</h4>
-          <div className="space-y-2">
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-500">Type:</span>
-              <span className="text-sm">{user.type}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-sm text-gray-500">Location:</span>
-              <span className="text-sm">{user.location}</span>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <h4 className="text-sm font-medium mb-2">Verification Documents</h4>
-          <div className="space-y-2">
-            {user.documents.map((doc) => (
-              <div key={doc.name} className="flex items-center justify-between bg-gray-50 p-2 rounded">
-                <span className="text-sm">{doc.name}</span>
-                <Button variant="ghost" size="icon">
-                  <Download className="h-4 w-4" />
-                </Button>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h4 className="text-sm font-medium mb-2">Admin Notes</h4>
-          <Textarea
-            placeholder="Add notes..."
-            className="min-h-[100px]"
-          />
-        </div>
-
-        <div className="flex gap-3">
-          <Button 
-            className="flex-1 bg-green-600 hover:bg-green-700"
-            onClick={handleApprove}
-            disabled={updateStatusMutation.isPending}
-          >
-            Approve
-          </Button>
-          <Button 
-            variant="destructive" 
-            className="flex-1"
-            onClick={handleReject}
-            disabled={updateStatusMutation.isPending}
-          >
-            Reject
-          </Button>
-        </div>
+      <div className="sticky bottom-0 bg-white border-t p-4 flex justify-end gap-2">
+        <Button 
+          variant="outline" 
+          className="gap-1"
+          onClick={handleReject}
+          disabled={isLoading}
+        >
+          <XCircle className="h-4 w-4 text-red-500" />
+          Reject
+        </Button>
+        <Button 
+          className="gap-1 bg-green-600 hover:bg-green-700"
+          onClick={handleApprove}
+          disabled={isLoading}
+        >
+          <CheckCircle className="h-4 w-4" />
+          Approve
+        </Button>
       </div>
     </div>
   );
 }
+
+// Import mock data
+import { pendingSellers, pendingBuyers } from "@/components/users/pending-users-list";
