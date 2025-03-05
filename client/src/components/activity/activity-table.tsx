@@ -37,7 +37,54 @@ const demoLogs: ActivityLog[] = [
     status: "success",
     ipAddress: "192.168.1.1",
   },
-  // Add more demo logs here
+  {
+    id: "2",
+    timestamp: "2025-01-15 13:45:18",
+    user: {
+      name: "Sarah Smith",
+      role: "Buyer",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=sarah",
+    },
+    activity: "Order Placed",
+    status: "success",
+    ipAddress: "192.168.1.42",
+  },
+  {
+    id: "3",
+    timestamp: "2025-01-15 12:20:05",
+    user: {
+      name: "Mike Johnson",
+      role: "Admin",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=mike",
+    },
+    activity: "User Approval",
+    status: "success",
+    ipAddress: "192.168.2.15",
+  },
+  {
+    id: "4",
+    timestamp: "2025-01-15 11:05:33",
+    user: {
+      name: "Emily Chen",
+      role: "Seller",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=emily",
+    },
+    activity: "Password Reset",
+    status: "failed",
+    ipAddress: "192.168.3.78",
+  },
+  {
+    id: "5",
+    timestamp: "2025-01-15 10:15:40",
+    user: {
+      name: "Robert Wilson",
+      role: "Buyer",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=robert",
+    },
+    activity: "Payment Attempt",
+    status: "pending",
+    ipAddress: "192.168.4.92",
+  }
 ];
 
 export function ActivityTable() {

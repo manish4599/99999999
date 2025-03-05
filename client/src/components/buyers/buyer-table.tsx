@@ -161,3 +161,139 @@ export function BuyerTable() {
     </Table>
   );
 }
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { EllipsisVertical, Star } from "lucide-react";
+
+interface Buyer {
+  id: number;
+  name: string;
+  email: string;
+  avatar: string;
+  status: "active" | "inactive" | "pending";
+  joinDate: string;
+  totalOrders: string;
+  totalSpent: string;
+}
+
+const demoBuyers: Buyer[] = [
+  {
+    id: 1,
+    name: "James Wilson",
+    email: "james@example.com",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=james",
+    status: "active",
+    joinDate: "Jan 5, 2025",
+    totalOrders: "24",
+    totalSpent: "$1,245.80"
+  },
+  {
+    id: 2,
+    name: "Emma Davis",
+    email: "emma@example.com",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=emma",
+    status: "active",
+    joinDate: "Jan 8, 2025",
+    totalOrders: "15",
+    totalSpent: "$875.20"
+  },
+  {
+    id: 3,
+    name: "Michael Brown",
+    email: "michael@example.com",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=michael",
+    status: "inactive",
+    joinDate: "Dec 20, 2024",
+    totalOrders: "8",
+    totalSpent: "$342.75"
+  },
+  {
+    id: 4,
+    name: "Olivia Martinez",
+    email: "olivia@example.com",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=olivia",
+    status: "active",
+    joinDate: "Jan 2, 2025",
+    totalOrders: "32",
+    totalSpent: "$1,675.50"
+  },
+  {
+    id: 5,
+    name: "William Johnson",
+    email: "william@example.com",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=william",
+    status: "pending",
+    joinDate: "Jan 12, 2025",
+    totalOrders: "1",
+    totalSpent: "$89.99"
+  }
+];
+
+export function BuyerTable() {
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Buyer Details</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>Join Date</TableHead>
+          <TableHead>Activity</TableHead>
+          <TableHead>Actions</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {demoBuyers.map((buyer) => (
+          <TableRow key={buyer.id}>
+            <TableCell>
+              <div className="flex items-center gap-3">
+                <Avatar>
+                  <AvatarImage src={buyer.avatar} />
+                  <AvatarFallback>{buyer.name[0]}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <p className="font-medium text-gray-900">{buyer.name}</p>
+                  <p className="text-sm text-gray-500">{buyer.email}</p>
+                </div>
+              </div>
+            </TableCell>
+            <TableCell>
+              <Badge
+                variant="secondary"
+                className={
+                  buyer.status === "active"
+                    ? "bg-green-100 text-green-800"
+                    : buyer.status === "pending"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-gray-100 text-gray-800"
+                }
+              >
+                {buyer.status}
+              </Badge>
+            </TableCell>
+            <TableCell>{buyer.joinDate}</TableCell>
+            <TableCell>
+              <div className="space-y-1">
+                <p className="text-sm font-medium">{buyer.totalOrders} orders</p>
+                <p className="text-sm text-gray-500">{buyer.totalSpent} spent</p>
+              </div>
+            </TableCell>
+            <TableCell>
+              <Button variant="ghost" size="icon">
+                <EllipsisVertical className="h-4 w-4" />
+              </Button>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+}

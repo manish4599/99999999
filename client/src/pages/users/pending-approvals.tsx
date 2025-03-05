@@ -41,51 +41,31 @@ export default function PendingApprovalsPage() {
         </Tabs>
       </div>
 
-      <div className="flex gap-4">
-        <Input
-          type="search"
-          placeholder="Search users..."
-          className="max-w-sm"
-        />
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-6">
+        <Input placeholder="Search by name or email..." />
         <Select defaultValue="all">
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Filter by Date" />
+          <SelectTrigger>
+            <SelectValue placeholder="Filter by document status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Filter by Date</SelectItem>
-            <SelectItem value="today">Today</SelectItem>
-            <SelectItem value="week">This Week</SelectItem>
-            <SelectItem value="month">This Month</SelectItem>
+            <SelectItem value="all">All Documents</SelectItem>
+            <SelectItem value="complete">Complete</SelectItem>
+            <SelectItem value="incomplete">Incomplete</SelectItem>
+            <SelectItem value="pending">Verification Pending</SelectItem>
           </SelectContent>
         </Select>
-        <Select defaultValue="all">
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Business Type" />
+        <Select defaultValue="newest">
+          <SelectTrigger>
+            <SelectValue placeholder="Sort by" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Business Type</SelectItem>
-            <SelectItem value="tech">Technology</SelectItem>
-            <SelectItem value="retail">Retail</SelectItem>
-            <SelectItem value="service">Service</SelectItem>
+            <SelectItem value="newest">Newest First</SelectItem>
+            <SelectItem value="oldest">Oldest First</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
-      <div className="flex gap-6">
-        <div className="flex-1">
-          <PendingUsersList
-            userType={userType}
-            onSelectUser={setSelectedUser}
-            selectedUserId={selectedUser}
-          />
-        </div>
-        {selectedUser && (
-          <UserPreview
-            userId={selectedUser}
-            onClose={() => setSelectedUser(null)}
-          />
-        )}
-      </div>
+      <PendingUsersList userType={userType} />
     </div>
   );
 }

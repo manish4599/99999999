@@ -33,7 +33,46 @@ const demoSellers: Seller[] = [
     rating: 4.8,
     sales: "2.4k",
   },
-  // Add more demo sellers here
+  {
+    id: 2,
+    name: "Fashion Hub",
+    email: "fashion@hub.com",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=fashion",
+    businessType: "Clothing",
+    status: "active",
+    rating: 4.5,
+    sales: "1.8k",
+  },
+  {
+    id: 3,
+    name: "Organic Foods",
+    email: "organic@foods.com",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=organic",
+    businessType: "Groceries",
+    status: "pending",
+    rating: 4.2,
+    sales: "950",
+  },
+  {
+    id: 4,
+    name: "Sports Gear",
+    email: "sports@gear.com",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=sports",
+    businessType: "Sporting Goods",
+    status: "active",
+    rating: 4.6,
+    sales: "1.5k",
+  },
+  {
+    id: 5,
+    name: "Home Decor",
+    email: "home@decor.com",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=decor",
+    businessType: "Furniture",
+    status: "inactive",
+    rating: 3.9,
+    sales: "780",
+  }
 ];
 
 export function UserTable() {
