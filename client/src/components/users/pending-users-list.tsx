@@ -1,94 +1,3 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useQuery } from "@tanstack/react-query";
-
-interface PendingUsersListProps {
-  userType: string;
-  selectedUserId: string | null;
-  onSelectUser: (userId: string) => void;
-}
-
-export function PendingUsersList({ userType, selectedUserId, onSelectUser }: PendingUsersListProps) {
-  const { data: users = [], isLoading } = useQuery({
-    queryKey: ['/api/users/pending'],
-  });
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  const filteredUsers = users.filter(user => 
-    userType === 'sellers' ? user.role === 'seller' : user.role === 'buyer'
-  );
-
-  return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>
-            <input type="checkbox" className="h-4 w-4" />
-          </TableHead>
-          <TableHead>USER</TableHead>
-          <TableHead>BUSINESS</TableHead>
-          <TableHead>CONTACT</TableHead>
-          <TableHead>DOCUMENTS</TableHead>
-          <TableHead>DATE</TableHead>
-          <TableHead>STATUS</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {filteredUsers.map((user) => (
-          <TableRow
-            key={user.id}
-            className={`cursor-pointer ${selectedUserId === user.id ? 'bg-blue-50' : ''}`}
-            onClick={() => onSelectUser(user.id)}
-          >
-            <TableCell>
-              <input type="checkbox" className="h-4 w-4" />
-            </TableCell>
-            <TableCell>
-              <div className="flex items-center gap-3">
-                <Avatar>
-                  <AvatarImage src={user.avatar} />
-                  <AvatarFallback>{user.username[0]}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <p className="font-medium">{user.username}</p>
-                  <p className="text-sm text-gray-500">{user.email}</p>
-                </div>
-              </div>
-            </TableCell>
-            <TableCell>{user.businessType || 'N/A'}</TableCell>
-            <TableCell>
-              <div>
-                <p className="text-sm">{user.email}</p>
-                <p className="text-sm text-gray-500">{user.phone || 'N/A'}</p>
-              </div>
-            </TableCell>
-            <TableCell>
-              <span className="px-2 py-1 text-sm bg-green-100 text-green-800 rounded">
-                Complete
-              </span>
-            </TableCell>
-            <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
-            <TableCell>
-              <span className="px-2 py-1 text-sm bg-yellow-100 text-yellow-800 rounded">
-                Pending
-              </span>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  );
-}
 import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -148,6 +57,28 @@ const pendingSellers: PendingUser[] = [
     location: "San Jose, CA",
     documents: ["Company Registration", "Product Certifications"],
   },
+  {
+    id: 4,
+    name: "Eco Friendly Products",
+    email: "eco@friendly.com",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=eco",
+    businessType: "Sustainable Goods",
+    joinDate: "Jan 11, 2025",
+    location: "Boulder, CO",
+    documents: ["Business License", "Product Certifications"],
+    notes: "Focus on zero-waste and eco-friendly solutions",
+  },
+  {
+    id: 5,
+    name: "Handmade Jewelry",
+    email: "jewelry@handmade.com",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=jewelry",
+    businessType: "Accessories",
+    joinDate: "Jan 10, 2025",
+    location: "Santa Fe, NM",
+    documents: ["Business Registration", "Tax Documents"],
+    notes: "Artisan with 10+ years of experience",
+  },
 ];
 
 // Demo data for pending buyers
@@ -189,11 +120,31 @@ const pendingBuyers: PendingUser[] = [
     location: "Austin, TX",
     documents: ["ID Verification", "Address Proof"],
   },
+  {
+    id: 5,
+    name: "Morgan White",
+    email: "morgan@example.com",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=morgan",
+    joinDate: "Jan 10, 2025",
+    location: "Nashville, TN",
+    documents: ["ID Verification"],
+    notes: "First-time online shopper",
+  },
+  {
+    id: 6,
+    name: "Riley Davis",
+    email: "riley@example.com",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=riley",
+    joinDate: "Jan 9, 2025",
+    location: "Chicago, IL",
+    documents: ["ID Verification", "Address Proof"],
+    notes: "Looking for premium products",
+  },
 ];
 
 export function PendingUsersList({ userType = "sellers" }: { userType?: string }) {
   const [selectedUser, setSelectedUser] = useState<number | null>(null);
-  
+
   const users = userType === "sellers" ? pendingSellers : pendingBuyers;
 
   return (
