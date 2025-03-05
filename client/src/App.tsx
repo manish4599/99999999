@@ -46,15 +46,4 @@ function App() {
 
 export default App;
 
-// Placeholder components for the notifications page (replace with actual implementation)
-export const NotificationsPage = () => (
-  <div>
-    <h1>Notifications Page</h1>
-    {/* Add notification stats and history components here */}
-    <NotificationStats />
-    <NotificationHistory />
-  </div>
-);
-
-export const NotificationStats = () => <p>Notification Stats Placeholder</p>;
-export const NotificationHistory = () => <p>Notification History Placeholder</p>;
+// These placeholder components are no longer needed since we have actual implementations

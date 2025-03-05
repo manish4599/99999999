@@ -13,16 +13,62 @@ interface Order {
   id: string;
   buyer: {
     name: string;
-    avatar: string;
+    avatar?: string;
   };
   seller: {
     name: string;
-    avatar: string;
+    avatar?: string;
   };
   date: string;
   amount: string;
   status: "completed" | "pending" | "cancelled";
 }
+
+// Sample data for demo purposes
+const orders: Order[] = [
+  {
+    id: "#ORD-7845",
+    buyer: {
+      name: "John Doe",
+      avatar: "/avatars/john.png"
+    },
+    seller: {
+      name: "Tech Store",
+      avatar: "/avatars/tech.png"
+    },
+    date: "Jan 15, 2024",
+    amount: "$584.95",
+    status: "completed"
+  },
+  {
+    id: "#ORD-7844",
+    buyer: {
+      name: "Sarah Smith",
+      avatar: "/avatars/sarah.png"
+    },
+    seller: {
+      name: "Fashion Outlet",
+      avatar: "/avatars/fashion.png"
+    },
+    date: "Jan 15, 2024",
+    amount: "$244.00",
+    status: "pending"
+  },
+  {
+    id: "#ORD-7843",
+    buyer: {
+      name: "Mike Johnson",
+      avatar: "/avatars/mike.png"
+    },
+    seller: {
+      name: "Electronics Hub",
+      avatar: "/avatars/electronics.png"
+    },
+    date: "Jan 14, 2024",
+    amount: "$874.20",
+    status: "cancelled"
+  }
+];
 
 const statusColors = {
   completed: "bg-green-100 text-green-800",
