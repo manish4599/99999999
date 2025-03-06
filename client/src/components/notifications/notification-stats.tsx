@@ -1,57 +1,48 @@
-
-import { Card, CardContent } from "@/components/ui/card";
-import { Send, CheckCheck, Clock, AlertCircle } from "lucide-react";
-
-interface NotificationStat {
-  title: string;
-  value: string;
-  icon: React.ReactNode;
-  className: string;
-}
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { FileText, Inbox, Clock, AlertTriangle } from "lucide-react";
 
 export function NotificationStats() {
-  const stats: NotificationStat[] = [
-    {
-      title: "Total Sent",
-      value: "24,123",
-      icon: <Send className="h-5 w-5 text-blue-500" />,
-      className: "bg-blue-50"
-    },
-    {
-      title: "Delivered",
-      value: "23,492",
-      icon: <CheckCheck className="h-5 w-5 text-green-500" />,
-      className: "bg-green-50"
-    },
-    {
-      title: "Pending",
-      value: "412",
-      icon: <Clock className="h-5 w-5 text-amber-500" />,
-      className: "bg-amber-50"
-    },
-    {
-      title: "Failed",
-      value: "219",
-      icon: <AlertCircle className="h-5 w-5 text-red-500" />,
-      className: "bg-red-50"
-    }
-  ];
-
   return (
-    <div className="grid gap-4 grid-cols-1 md:grid-cols-4">
-      {stats.map((stat, index) => (
-        <Card key={index}>
-          <CardContent className="flex p-6">
-            <div className={`p-2 rounded-full mr-4 ${stat.className}`}>
-              {stat.icon}
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">{stat.title}</p>
-              <h3 className="text-2xl font-semibold mt-1">{stat.value}</h3>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Total Sent</CardTitle>
+          <FileText className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">24,123</div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Delivered</CardTitle>
+          <Inbox className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">23,492</div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Pending</CardTitle>
+          <Clock className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">412</div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Failed</CardTitle>
+          <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">219</div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
