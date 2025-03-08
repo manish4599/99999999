@@ -1,11 +1,63 @@
 import { Handler } from '@netlify/functions';
 import { storage } from '../../server/storage';
+import { createUserSchema } from '../../shared/schema';
+import { hash } from 'bcrypt';
 
 export const handler: Handler = async (event) => {
   const path = event.path.replace('/.netlify/functions/api', '');
 
   try {
     switch (path) {
+      case '/api/users/create': {
+        if (event.httpMethod !== 'POST') {
+          return {
+            statusCode: 405,
+            body: JSON.stringify({ error: 'Method not allowed' }),
+          };
+        }
+
+        const body = JSON.parse(event.body || '{}');
+        const result = createUserSchema.safeParse(body);
+        
+        if (!result.success) {
+          return {
+            statusCode: 400,
+            body: JSON.stringify({ 
+              message: "Invalid user data", 
+              errors: result.error.errors 
+            }),
+          };
+        }
+
+        const { username, email, password, role } = result.data;
+        
+        // Check if user already exists
+        const existingUsers = await storage.getUsers();
+        if (existingUsers.some(u => u.email === email)) {
+          return {
+            statusCode: 400,
+            body: JSON.stringify({ message: "Email already exists" }),
+          };
+        }
+
+        // Hash password
+        const hashedPassword = await hash(password, 10);
+
+        // Create user
+        await storage.createUser({
+          username,
+          email,
+          password: hashedPassword,
+          role,
+          status: "active"
+        });
+
+        return {
+          statusCode: 201,
+          body: JSON.stringify({ message: "User created successfully" }),
+        };
+      }
+
       case '/api/dashboard': {
         const [users, newSignups, orders, recentOrders, topStores] = await Promise.all([
           storage.getUsers(),
