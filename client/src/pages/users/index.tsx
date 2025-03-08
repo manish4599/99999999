@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -31,6 +30,10 @@ export default function UsersPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold text-gray-900">User Management</h1>
+        <Button className="flex items-center gap-1">
+          <Plus className="h-4 w-4" />
+          Add User
+        </Button>
       </div>
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -117,12 +120,10 @@ export default function UsersPage() {
               <SelectItem value="asia">Asia</SelectItem>
             </SelectContent>
           </Select>
-          <Link href="/users/add">
-            <Button className="bg-blue-600 hover:bg-blue-700">
-              <Plus className="h-4 w-4 mr-2" />
-              Add New Seller
-            </Button>
-          </Link>
+          <Button className="bg-blue-600 hover:bg-blue-700">
+            <Plus className="h-4 w-4 mr-2" />
+            Add New Seller
+          </Button>
         </div>
       </div>
 

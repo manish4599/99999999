@@ -1,49 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { createUserSchema } from "@shared/schema";
-import { hash } from "bcrypt";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Create user
-  app.post("/api/users/create", async (req, res) => {
-    try {
-      const result = createUserSchema.safeParse(req.body);
-      
-      if (!result.success) {
-        return res.status(400).json({ 
-          message: "Invalid user data", 
-          errors: result.error.errors 
-        });
-      }
-
-      const { username, email, password, role } = result.data;
-      
-      // Check if user already exists
-      const existingUsers = await storage.getUsers();
-      if (existingUsers.some(u => u.email === email)) {
-        return res.status(400).json({ message: "Email already exists" });
-      }
-
-      // Hash password
-      const hashedPassword = await hash(password, 10);
-
-      // Create user
-      await storage.createUser({
-        username,
-        email,
-        password: hashedPassword,
-        role,
-        status: "active"
-      });
-
-      res.status(201).json({ message: "User created successfully" });
-    } catch (error) {
-      console.error("Error creating user:", error);
-      res.status(500).json({ message: "Failed to create user" });
-    }
-  });
-
   // Dashboard metrics
   app.get("/api/dashboard", async (_req, res) => {
     const [users, newSignups, orders, recentOrders, topStores] = await Promise.all([

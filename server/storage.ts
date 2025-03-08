@@ -1,11 +1,10 @@
-import { users, orders, stores, type User, type Order, type Store, type InsertUser, type InsertOrder, type InsertStore, type CreateUser } from "@shared/schema";
+import { users, orders, stores, type User, type Order, type Store, type InsertUser, type InsertOrder, type InsertStore } from "@shared/schema";
 
 export interface IStorage {
   // Users
   getUsers(): Promise<User[]>;
   getNewSignups(days: number): Promise<number>;
   updateUserStatus(userId: number, status: 'approved' | 'rejected'): Promise<void>;
-  createUser(user: CreateUser): Promise<void>;
 
   // Orders
   getOrders(): Promise<Order[]>;
@@ -19,7 +18,6 @@ export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private orders: Map<number, Order>;
   private stores: Map<number, Store>;
-  private nextUserId: number = 4; // Start after mock data
 
   constructor() {
     this.users = new Map();
@@ -64,20 +62,6 @@ export class MemStorage implements IStorage {
     return Array.from(this.stores.values())
       .sort((a, b) => Number(b.revenue) - Number(a.revenue))
       .slice(0, 3);
-  }
-
-  async createUser(userData: CreateUser): Promise<void> {
-    const newUser: User = {
-      id: this.nextUserId++,
-      username: userData.username,
-      email: userData.email,
-      password: userData.password,
-      role: userData.role,
-      status: "active",
-      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${userData.username}`,
-      createdAt: new Date(),
-    };
-    this.users.set(newUser.id, newUser);
   }
 
   private initializeMockData() {

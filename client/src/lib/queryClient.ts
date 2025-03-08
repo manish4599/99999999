@@ -7,18 +7,12 @@ async function throwIfResNotOk(res: Response) {
   }
 }
 
-function transformApiPath(path: string): string {
-  // Always transform /api/* to /.netlify/functions/api/* since we're deployed on Netlify
-  return path.replace(/^\/api/, "/.netlify/functions/api");
-}
-
 export async function apiRequest(
   method: string,
   url: string,
   data?: unknown | undefined,
 ): Promise<Response> {
-  const transformedUrl = transformApiPath(url);
-  const res = await fetch(transformedUrl, {
+  const res = await fetch(url, {
     method,
     headers: data ? { "Content-Type": "application/json" } : {},
     body: data ? JSON.stringify(data) : undefined,
@@ -35,8 +29,7 @@ export const getQueryFn: <T>(options: {
 }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    const transformedPath = transformApiPath(queryKey[0] as string);
-    const res = await fetch(transformedPath, {
+    const res = await fetch(queryKey[0] as string, {
       credentials: "include",
     });
 

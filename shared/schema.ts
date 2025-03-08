@@ -6,10 +6,8 @@ export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull(),
   email: text("email").notNull(),
-  password: text("password").notNull(),
   avatar: text("avatar"),
   role: text("role").default("user"),
-  status: text("status").default("active"),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -31,24 +29,6 @@ export const stores = pgTable("stores", {
   avatar: text("avatar"),
 });
 
-export const userSchema = z.object({
-  id: z.number(),
-  username: z.string(),
-  email: z.string().email(),
-  password: z.string(),
-  avatar: z.string(),
-  role: z.enum(["admin", "seller"]),
-  status: z.enum(["active", "inactive"]),
-  createdAt: z.date(),
-});
-
-export const createUserSchema = userSchema.omit({ 
-  id: true, 
-  avatar: true,
-  status: true,
-  createdAt: true 
-});
-
 export const insertUserSchema = createInsertSchema(users).omit({ id: true, createdAt: true });
 export const insertOrderSchema = createInsertSchema(orders).omit({ id: true, createdAt: true });
 export const insertStoreSchema = createInsertSchema(stores).omit({ id: true });
@@ -59,4 +39,3 @@ export type Store = typeof stores.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type InsertOrder = z.infer<typeof insertOrderSchema>;
 export type InsertStore = z.infer<typeof insertStoreSchema>;
-export type CreateUser = z.infer<typeof createUserSchema>;
